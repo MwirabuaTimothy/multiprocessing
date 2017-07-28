@@ -2,7 +2,6 @@ import pymongo
 from random import randint
 
 from multiprocessing import Pool
-from multiprocessing import cpu_count
 
 from datetime import datetime
 start = datetime.now();
@@ -18,9 +17,7 @@ db = connection.multiprocessing_example
 schools = db.schools 
 
 
-
-school_number=1;
-while (school_number <= 200000) is True:
+def uploadSchool(school_number):
   
 	document = {
 		'school_number': school_number,
@@ -28,10 +25,19 @@ while (school_number <= 200000) is True:
 		'no_students': randint(1000, 10000),
 		'first_student': school_number,
 	}
-
 	schools.insert(document)
-	school_number += 1
+
+if __name__ == '__main__':
+	p = Pool()
+	# 'map' - the process of dividing the input between multipe cores
+	# 'reduce' - the process of aggregating results
+	result = p.map(uploadSchool, range(1, 200001)) # does both mapping and reducing(aggregating results)
+	p.close()
+	p.join()
+	
 
 end = datetime.now();
 print end.time(), '--------------------- ENDED PROCESSING ---------------------'
 print (end - start).total_seconds(), 's'
+
+	
