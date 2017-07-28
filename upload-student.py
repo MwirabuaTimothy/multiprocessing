@@ -9,7 +9,7 @@ def calc_student_id(school_number, student_number):
 		sum += x*x
 	return str(school_number)  + str(student_number) + str(sum)
 
-school_number = int(sys.argv[1]) || 1
+school_number = int(sys.argv[1])
 print datetime.now(), 'START PROCESS ', school_number
 
 # obtain a mongo connection
@@ -22,7 +22,7 @@ students = db['students'+str(school_number)]
 
 
 # get the school
-school = db.schools.find({'school_number': school_number}).limit(1)
+school = db.schools.find_one({'school_number': school_number})
 
 
 student_number = school['first_student']
