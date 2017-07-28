@@ -45,14 +45,14 @@ while (school_index < no_students) is True: # Going East...
 
 	documents.append(document)
 
-	if(student_number % 10000 == 0 ): 
+	if(student_number % 1000 == 0 ): 
 		# todo - try students.batch(...)
 		students.insert_many(documents)
 		documents = [] # reempty
 
 		print datetime.now().time(), 'school', school_number, student_number
 
-	if(student_number > (math.floor(student_number/10000) *10000)): # the remainder
+	if(student_number > (math.floor(student_number/1000) *1000)): # the remainder
 		
 		students.insert(document)
 		documents = [] # reempty
