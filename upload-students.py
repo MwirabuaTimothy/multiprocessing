@@ -29,8 +29,7 @@ def runProcess(school_number):
 
 processes = []
 
-for m in range(0,no_schools):
-  school_number = m + 1
+for school_number in range(1,no_schools):
   p = Process(target=runProcess, args=(str(school_number),))
   p.start()
   processes.append(p)
