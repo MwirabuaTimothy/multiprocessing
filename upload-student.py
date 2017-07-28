@@ -16,7 +16,7 @@ print datetime.now(), 'START PROCESS ', school_number
 connection = pymongo.MongoClient("localhost", 27017)
 
 # obtain a handle to the database
-db = connection.project
+db = connection.multiprocessing
 # create the collection
 students = db['students'+str(school_number)] 
 

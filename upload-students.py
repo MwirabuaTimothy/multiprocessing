@@ -14,7 +14,7 @@ print start.time(), '--------------------- STARTED PROCESSING ------------------
 connection = pymongo.MongoClient("localhost", 27017)
 
 # obtain a handle to the project database
-db = connection.example
+db = connection.multiprocessing
 # get the collection
 schools = db.schools 
 
@@ -29,7 +29,7 @@ def runProcess(school_number):
 
 processes = []
 
-for school_number in range(1,no_schools):
+for school_number in range(1,no_schools+1):
   p = Process(target=runProcess, args=(str(school_number),))
   p.start()
   processes.append(p)
