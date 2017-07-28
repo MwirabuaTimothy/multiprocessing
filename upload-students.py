@@ -20,7 +20,7 @@ schools = db.schools
 
 # Number of schools
 no_schools = schools.count(); 
-# no_schools = 2; 
+no_schools = 10; 
 
 
 def runProcess(school_number): 
