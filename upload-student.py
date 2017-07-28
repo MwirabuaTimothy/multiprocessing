@@ -24,7 +24,7 @@ students = db['students'+str(school_number)]
 # get the school
 school = db.schools.find_one({'school_number': school_number})
 
-
+print school.first_student
 student_number = school['first_student']
 school_number = school['school_number']
 no_students = school['no_students']
