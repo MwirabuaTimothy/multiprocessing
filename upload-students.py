@@ -2,7 +2,7 @@ import pymongo
 import subprocess
 import math
 
-from multiprocessing import Process
+from multiprocessing import Pool
 
 from datetime import datetime
 start = datetime.now();
@@ -20,22 +20,18 @@ schools = db.schools
 
 # Number of schools
 no_schools = schools.count(); 
-# no_schools = 10; 
 
 
 def runProcess(school_number): 
   subprocess.call(['python', 'upload-student.py', str(school_number)])
 
 
-processes = []
-
-for school_number in range(1,no_schools+1):
-  p = Process(target=runProcess, args=(str(school_number),))
-  p.start()
-  processes.append(p)
-
-for p in processes:
-   p.join()
+if __name__ == '__main__':
+  p = Pool()
+  for school_number in xrange(1, no_schools+1):
+        p.apply_async(runProcess, args=(school_number,))
+  p.close()
+  p.join()
 
 
 end = datetime.now();
