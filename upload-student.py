@@ -45,17 +45,37 @@ if db.schools.find({'school_number': school_number}).count() > 0:
 
 		documents.append(document)
 
-		if(student_number % 1000 == 0 ): 
+		if(student_number % 10000 == 0): 
 			# todo - try students.batch(...)
 			students.insert_many(documents)
 			documents = [] # reempty
 
-			print datetime.now().time(), 'school', school_number, student_number
+		else:
+			# student_number = 11111
+			x0000 = math.floor(student_number/10000) *10000 # 80000
+			remainder = student_number - x0000 # 1111
+			if(student_number > x0000 and remainder % 1000 == 0):
+				# todo - try students.batch(...)
+				students.insert_many(documents)
+				documents = [] # reempty
+			else:
+				x000 = math.floor(remainder/1000) *1000 #1000
+				remainder = remainder - x000
+				if(student_number > x000 and remainder % 100 == 0):
+					# todo - try students.batch(...)
+					students.insert_many(documents)
+					documents = [] # reempty
 
-		if(student_number > (math.floor(student_number/1000) *1000)): # the remainder
-			
-			students.insert(document)
-			documents = [] # reempty
+				else:
+					x00 = math.floor(remainder/100) *100 #100
+					remainder = remainder - x000
+					if(student_number > x00 and remainder % 10 == 0):
+						# todo - try students.batch(...)
+						students.insert_many(documents)
+						documents = [] # reempty
+					else:
+						students.insert(document)
+						documents = [] # reempty
 
 		student_number += 1;
 		school_index += 1;
