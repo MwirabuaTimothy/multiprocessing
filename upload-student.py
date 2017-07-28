@@ -3,15 +3,13 @@ import math
 import sys
 from datetime import datetime
 
-
 def calc_student_id(school_number, student_number):
 	sum = 0
 	for x in range(1000):
 		sum += x*x
 	return str(school_number)  + str(student_number) + str(sum)
 
-
-school_number = int(sys.argv[1])
+school_number = int(sys.argv[1]) || 1
 print datetime.now(), 'START PROCESS ', school_number
 
 # obtain a mongo connection
@@ -22,15 +20,16 @@ db = connection.project
 # create the collection
 students = db['students'+str(school_number)] 
 
-documents = []
 
 # get the school
-school = db.schools.find_one({'school_number': school_number}) 
+school = db.schools.find({'school_number': school_number}).limit(1)
+
 
 student_number = school['first_student']
 school_number = school['school_number']
 no_students = school['no_students']
 
+documents = []
 
 school_index=1;
 while (school_index < no_students) is True: # Going East...
