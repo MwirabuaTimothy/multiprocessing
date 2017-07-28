@@ -22,44 +22,49 @@ students = db['students'+str(school_number)]
 
 
 # get the school
-school = db.schools.find_one({'school_number': school_number})
+if db.schools.find({'school_number': school_number}).count() > 0:
+	school = db.schools.find_one({'school_number': school_number})
+	print school['first_student']
 
-print school.first_student
-student_number = school['first_student']
-school_number = school['school_number']
-no_students = school['no_students']
+	student_number = school['first_student']
+	school_number = school['school_number']
+	no_students = school['no_students']
 
-documents = []
+	documents = []
 
-school_index=1;
-while (school_index < no_students) is True: # Going East...
-	student_id = calc_student_id(school_number, student_number)
+	school_index=1;
+	while (school_index < no_students) is True: # Going East...
+		student_id = calc_student_id(school_number, student_number)
 
-	document = {
-		'number': student_number,
-		'name': 'Student' + str(student_number),
-		'school_number': school_number,
-		'school_index': school_index,
-		'student_id': student_id,
-	}
+		document = {
+			'number': student_number,
+			'name': 'Student' + str(student_number),
+			'school_number': school_number,
+			'school_index': school_index,
+			'student_id': student_id,
+		}
 
-	documents.append(document)
+		documents.append(document)
 
-	if(student_number % 1000 == 0 ): 
-		# todo - try students.batch(...)
-		students.insert_many(documents)
-		documents = [] # reempty
+		if(student_number % 1000 == 0 ): 
+			# todo - try students.batch(...)
+			students.insert_many(documents)
+			documents = [] # reempty
 
-		print datetime.now().time(), 'school', school_number, student_number
+			print datetime.now().time(), 'school', school_number, student_number
 
-	if(student_number > (math.floor(student_number/1000) *1000)): # the remainder
+		if(student_number > (math.floor(student_number/1000) *1000)): # the remainder
+			
+			students.insert(document)
+			documents = [] # reempty
+
+		student_number += 1;
+		school_index += 1;
+
+else:
+	print 'no school', school_number
+
 		
-		students.insert(document)
-		documents = [] # reempty
-
-	student_number += 1;
-	school_index += 1;
-	
 
 
 print datetime.now(), 'END PROCESS ', school_number

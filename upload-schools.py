@@ -12,7 +12,7 @@ print start.time(), '--------------------- STARTED PROCESSING ------------------
 connection = pymongo.MongoClient("localhost", 27017)
 
 # obtain a handle to the project database
-db = connection.multiprocessing_example
+db = connection.example
 # get the collection
 schools = db.schools 
 
