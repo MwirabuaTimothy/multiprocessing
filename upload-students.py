@@ -19,8 +19,8 @@ db = connection.multiprocessing_example
 schools = db.schools 
 
 # Number of schools
-# no_schools = schools.count(); 
-no_schools = 2; 
+no_schools = schools.count(); 
+# no_schools = 2; 
 
 
 def runProcess(school_number): 
