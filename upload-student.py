@@ -24,7 +24,6 @@ students = db['students'+str(school_number)]
 # get the school
 if db.schools.find({'school_number': school_number}).count() > 0:
 	school = db.schools.find_one({'school_number': school_number})
-	print school['first_student']
 
 	student_number = school['first_student']
 	school_number = school['school_number']
