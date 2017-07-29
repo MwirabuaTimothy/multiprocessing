@@ -31,54 +31,44 @@ if db.schools.find({'school_number': school_number}).count() > 0:
 
 	documents = []
 
-	school_index=1;
-	while (school_index < no_students) is True: # Going East...
+	student_index=1;
+	while (student_index < no_students) is True: # Going East...
 		student_id = calc_student_id(school_number, student_number)
 
 		document = {
 			'number': student_number,
 			'name': 'Student' + str(student_number),
 			'school_number': school_number,
-			'school_index': school_index,
+			'student_index': student_index,
 			'student_id': student_id,
 		}
 
 		documents.append(document)
 
-		if(student_number % 10000 == 0): 
-			# todo - try students.batch(...)
+		# Insert students in batches
+		remainder = no_students - student_index 
+		if(len(documents) % 10000 == 0): 
 			students.insert_many(documents)
 			documents = [] # reempty
-
 		else:
-			# student_number = 11111
-			x0000 = math.floor(student_number/10000) *10000 # 80000
-			remainder = student_number - x0000 # 1111
-			if(student_number > x0000 and remainder % 1000 == 0):
-				# todo - try students.batch(...)
+			if(remainder < 10000 and len(documents) % 1000 == 0):
 				students.insert_many(documents)
 				documents = [] # reempty
 			else:
-				x000 = math.floor(remainder/1000) *1000 #1000
-				remainder = remainder - x000
-				if(student_number > x000 and remainder % 100 == 0):
-					# todo - try students.batch(...)
+				if(remainder < 1000 and len(documents) % 100 == 0):
 					students.insert_many(documents)
 					documents = [] # reempty
-
 				else:
-					x00 = math.floor(remainder/100) *100 #100
-					remainder = remainder - x000
-					if(student_number > x00 and remainder % 10 == 0):
-						# todo - try students.batch(...)
+					if(remainder < 100 and len(documents) % 10 == 0):
 						students.insert_many(documents)
 						documents = [] # reempty
 					else:
-						students.insert(document)
-						documents = [] # reempty
+						if(remainder < 10):
+							students.insert(document)
+							documents = [] # reempty
 
 		student_number += 1;
-		school_index += 1;
+		student_index += 1;
 
 else:
 	print 'no school', school_number
