@@ -51,29 +51,6 @@ if db.schools.find({'school_number': school_number}).count() > 0:
 			documents = [] # reempty
 
 		else:
-			# student_number = 11111
-			x0000 = math.floor(student_number/10000) *10000 # 80000
-			remainder = student_number - x0000 # 1111
-			if(student_number > x0000 and remainder % 1000 == 0):
-				# todo - try students.batch(...)
-				students.insert_many(documents)
-				documents = [] # reempty
-			else:
-				x000 = math.floor(remainder/1000) *1000 #1000
-				remainder = remainder - x000
-				if(student_number > x000 and remainder % 100 == 0):
-					# todo - try students.batch(...)
-					students.insert_many(documents)
-					documents = [] # reempty
-
-				else:
-					x00 = math.floor(remainder/100) *100 #100
-					remainder = remainder - x000
-					if(student_number > x00 and remainder % 10 == 0):
-						# todo - try students.batch(...)
-						students.insert_many(documents)
-						documents = [] # reempty
-					else:
 						students.insert(document)
 						documents = [] # reempty
 
